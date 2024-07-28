@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{ article.title }}</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <h1>{{ article.title }}</h1>
+    <p>{{ article.description }}</p>
+    <div>
+      {% for image in article.images %}
+      <img src="{{ url_for('static', filename=image) }}" alt="Article Image" />
+      {% endfor %}
+    </div>
+    <div>{{ article.content | safe }}</div>
+    <a href="/">Back to Articles</a>
+  </body>
+</html>

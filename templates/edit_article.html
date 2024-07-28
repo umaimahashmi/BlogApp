@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Edit Article</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <script src="https://cdn.ckeditor.com/4.24.0/full/ckeditor.js"></script>
+  </head>
+  <body>
+    <h1>Edit Article</h1>
+    <form
+      action="/edit/{{ article.id }}"
+      method="post"
+      enctype="multipart/form-data"
+    >
+      <label for="title">Title:</label>
+      <input
+        type="text"
+        id="title"
+        name="title"
+        value="{{ article.title }}"
+        required
+      /><br /><br />
+      <label for="description">Description:</label>
+      <input
+        type="text"
+        id="description"
+        name="description"
+        value="{{ article.description }}"
+        required
+      /><br /><br />
+      <label for="content">Content:</label>
+      <textarea id="content" name="content" required>
+{{ article.content }}</textarea
+      ><br /><br />
+      <label for="images">Images:</label>
+      <input type="file" id="images" name="images" multiple /><br /><br />
+      {% if article.images %} {% for image in article.images %}
+      <img src="{{ url_for('static', filename=image) }}" alt="Article Image" />
+      <input type="checkbox" name="delete_images" value="{{ image }}" /> Delete
+      {% endfor %} {% endif %}
+      <button type="submit">Update Article</button>
+    </form>
+    <script>
+      CKEDITOR.replace("content", {
+        extraPlugins: "uploadimage,image2",
+        filebrowserUploadUrl: "/upload",
+        filebrowserUploadMethod: "form",
+      });
+    </script>
+  </body>
+</html>
